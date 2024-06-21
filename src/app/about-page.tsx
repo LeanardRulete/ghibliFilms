@@ -1,28 +1,62 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Film } from "./film.interface";
+import "./about-page.scss";
 
 export function AboutPage() {
-  const { filmId } = useParams();
+  const { filmId } = useParams<{ filmId: string }>();
   const navigate = useNavigate();
-  const [filmDetails, setFilmDetails] = useState<Film>();
+  const [filmDetails, setFilmDetails] = useState<Film | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
-      .get(`https://ghibliapi.vercel.app/films/${filmId}`)
-      .then((response) => setFilmDetails(response.data));
-  }, []);
+      .get<Film>(`https://ghibliapi.vercel.app/films/${filmId}`)
+      .then((response) => {
+        setFilmDetails(response.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Failed to fetch film details");
+        setLoading(false);
+      });
+  }, [filmId]);
 
   const handleBack = () => {
     navigate("/");
   };
 
-  return (
-    <div>
-      <h1>Welcome to {filmDetails?.title}</h1>
+  const handleOrder = () => {
+    alert(`Order placed for ${filmDetails?.title}!`);
+  };
 
-      <button onClick={handleBack}>Go Back</button>
+  if (loading) {
+    return <div className="about-page">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="about-page">{error}</div>;
+  }
+
+  return (
+    <div className="about-page">
+      <div className="film-image">
+        <img src={filmDetails?.image} alt={filmDetails?.title} />
+      </div>
+      <div className="film-details">
+        <h1>{filmDetails?.title}</h1>
+        <p><strong>Director:</strong> {filmDetails?.director}</p>
+        <p><strong>Producer:</strong> {filmDetails?.producer}</p>
+        <p><strong>Release Date:</strong> {filmDetails?.release_date}</p>
+        <p><strong>Description:</strong></p>
+        <p>{filmDetails?.description}</p>
+        <div className="buttons">
+          <button onClick={handleBack}>Go Back</button>
+          <button onClick={handleOrder}>Order</button>
+        </div>
+      </div>
     </div>
   );
 }

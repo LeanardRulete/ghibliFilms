@@ -1,20 +1,51 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: #e0cda8; /* Aesthetic brown background color */
+  color: #5c493d; /* Dark brown text color */
+  line-height: 1.6;
+}
+
 .app-header {
-  background-color: #282c34;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  text-align: center;
+  padding: 20px;
+  background-color: #3e2723; /* Dark brown header background color */
   color: white;
+  margin-bottom: 20px;
+  font-size: 32px;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .logo {
+    display: block;
+    margin: 0 auto 10px;
+    width: 100px; /* Adjust size as needed */
+  }
 
   small {
-    color: green;
-  }  
-} 
+    display: block;
+    font-size: 18px;
+    margin-top: 5px;
+  }
+}
 
-.film-item {
- display: flex;
- flex-direction: column;
- padding-left: 20px;
- padding-right: 20px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+button {
+  background-color: #985f2a; /* Darker brown button background color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #5d4037; /* Hover state for button */
+  }
 }
